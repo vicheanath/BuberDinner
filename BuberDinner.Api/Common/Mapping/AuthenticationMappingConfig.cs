@@ -4,7 +4,7 @@ using BuberDinner.Application.Services.Authentication.Common;
 using BuberDinner.Contracts.Authentication;
 using Mapster;
 
-namespace  BuberDinner.API.Common.Mapping;
+namespace BuberDinner.API.Common.Mapping;
 
 public class AuthenticationMappingConfig : IRegister
 {
