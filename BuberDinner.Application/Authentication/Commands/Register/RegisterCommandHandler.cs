@@ -22,6 +22,7 @@ IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
     }
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
+        await Task.CompletedTask;
         // 1. Validate the user don't exist
         if (_userRepository.GetUserByEmail(command.Email) != null)
         {
