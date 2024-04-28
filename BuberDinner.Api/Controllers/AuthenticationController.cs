@@ -1,5 +1,8 @@
 using BuberDinner.Api.Controllers;
 using BuberDinner.Application.Services.Authentication;
+using BuberDinner.Application.Services.Authentication.Commands;
+using BuberDinner.Application.Services.Authentication.Common;
+using BuberDinner.Application.Services.Authentication.Queries;
 using BuberDinner.Contracts.Authentication;
 using BuberDinner.Domain.Common.Errors;
 using ErrorOr;
@@ -11,17 +14,19 @@ namespace BuberDinner.API.Controllers;
 [Route("auth")]
 public class AuthenticationController : ApiController
 {
-    private readonly IAuthenticationService _authenticationService;
+    private readonly IAuthenticationCommandService _authenticationCommandService;
+    private readonly IAuthenticationQueryService _authenticationQueryService;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(IAuthenticationQueryService authenticationQueryService, IAuthenticationCommandService authenticationCommandService)
     {
-        _authenticationService = authenticationService;
+        _authenticationQueryService = authenticationQueryService;
+        _authenticationCommandService = authenticationCommandService;
     }
 
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest request)
     {
-        ErrorOr<AuthenticationResult> registerResult = _authenticationService.Register(
+        ErrorOr<AuthenticationResult> registerResult = _authenticationCommandService.Register(
               request.FirstName,
               request.LastName,
               request.Email,
@@ -49,7 +54,7 @@ public class AuthenticationController : ApiController
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
-        ErrorOr<AuthenticationResult> authResult = _authenticationService.Login(request.Email, request.Password);
+        ErrorOr<AuthenticationResult> authResult = _authenticationQueryService.Login(request.Email, request.Password);
 
         if (authResult.IsError && authResult.FirstError == Errors.Authentication.InvalidCredentials)
         {
