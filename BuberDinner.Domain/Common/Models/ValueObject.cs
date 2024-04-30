@@ -2,7 +2,11 @@ namespace BuberDinner.Domain.Common.Models;
 
 public abstract class ValueObject : IEquatable<ValueObject>
 {
-    public abstract IEnumerable<object> GetEqualityComponents();
+    public bool Equals(ValueObject? other)
+    {
+        return Equals((object?)other);
+    }
+
     public override bool Equals(object? obj)
     {
         if (obj == null || obj.GetType() != GetType())
@@ -10,9 +14,9 @@ public abstract class ValueObject : IEquatable<ValueObject>
             return false;
         }
 
-        var other = (ValueObject)obj;
+        var valueObject = (ValueObject)obj;
 
-        return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+        return GetEqualityComponents().SequenceEqual(valueObject.GetEqualityComponents());
     }
 
     public override int GetHashCode()
@@ -22,9 +26,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
             .Aggregate((x, y) => x ^ y);
     }
 
-    protected abstract IEnumerable<object> GetEqualityComponents();
-
-    public static bool operator ==(ValueObject a, ValueObject b)
+    public static bool operator ==(ValueObject? a, ValueObject? b)
     {
         if (a is null && b is null)
         {
@@ -39,10 +41,12 @@ public abstract class ValueObject : IEquatable<ValueObject>
         return a.Equals(b);
     }
 
-    public static bool operator !=(ValueObject a, ValueObject b)
+    public static bool operator !=(ValueObject? a, ValueObject? b)
     {
         return !(a == b);
     }
+
+    protected abstract IEnumerable<object?> GetEqualityComponents();
 }
 
 
