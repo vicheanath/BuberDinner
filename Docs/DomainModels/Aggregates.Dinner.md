@@ -40,7 +40,7 @@ class Dinner
             "guestCount": 2,
             "reservationStatus": "Reserved", // PendingGuestConfirmation, Reserved, Cancelled
             "guestId": { "value": "00000000-0000-0000-0000-000000000000" },
-            "billId": { "value": "00000000-0000-0000-0000-000000000000 }",
+            "billId": { "value": "00000000-0000-0000-0000-000000000000"},
             "arrivalDateTime": null,
             "createdDateTime": "2020-01-01T00:00:00.0000000Z",
             "updatedDateTime": "2020-01-01T00:00:00.0000000Z"
